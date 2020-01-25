@@ -23,6 +23,7 @@ private:
     GLuint createProgram(const char* vertexSource, const char* fragmentSource);
     GLuint shaderProgram;
     GLuint vPosition;
+    float hue = 0;
 };
 
 

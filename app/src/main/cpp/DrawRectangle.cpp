@@ -13,9 +13,18 @@ static const char glVertexShader[] =
 
 static const char glFragmentShader[] =
         "precision mediump float;\n"
+        "uniform float hue;\n"
+        "vec3 hsv2rgb(vec3 c)\n"
+        "{\n"
+        "  vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);\n"
+        "  vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);\n"
+        "  return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);\n"
+        "}\n"
         "void main()\n"
         "{\n"
-        "  gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);\n"
+        "  vec3 fragColor = hsv2rgb(vec3(hue, 1.0, 1.0));\n"
+        "  gl_FragColor = vec4(fragColor, 1.0);\n"
+        "  //gl_FragColor = vec4(1.0*rate, 0.0, 0.0, 1.0);\n"
         "}\n";
 
 #define LOG_TAG "libNative"
@@ -126,6 +135,20 @@ void DrawRectangle::onDrawFrame()
 
     glClear(GL_COLOR_BUFFER_BIT);
     glUseProgram(shaderProgram);
+    GLint loc = glGetUniformLocation(shaderProgram, "hue");
+    if(loc != -1)
+    {
+        glUniform1f(loc, hue);
+    }
+
+    if(hue < 1.0f)
+    {
+        hue = hue + 0.01f;
+    }
+    else
+    {
+        hue = 0;
+    }
     glVertexAttribPointer(vPosition, 2, GL_FLOAT, GL_FALSE, 0 ,verticeMatrix);
     glEnableVertexAttribArray(vPosition);
     glDrawArrays(GL_TRIANGLES, 0, 3);
