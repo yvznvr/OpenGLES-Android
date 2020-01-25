@@ -23,8 +23,6 @@ class MyRenderer : GLSurfaceView.Renderer {
     }
 
     override fun onSurfaceCreated(gl: GL10?, config: EGLConfig?) {
-        //gl?.glClearColor(1.0f, 1.0f, 0.0f, 1.0f);
-        //on_surface_created()
         surfaceCreated()
     }
 

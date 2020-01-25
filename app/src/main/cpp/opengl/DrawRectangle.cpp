@@ -32,8 +32,6 @@ static const char glFragmentShader[] =
 DrawRectangle::DrawRectangle()
 {
 
-
-
 }
 
 GLuint DrawRectangle::loadShader(GLuint shaderType, const char *shaderSource)
@@ -115,7 +113,6 @@ void DrawRectangle::onSurfaceCreated()
         LOGE ("Could not create program");
     }
     vPosition = glGetAttribLocation(shaderProgram, "vPosition");
-    //glViewport(0, 0, w, h);
 }
 
 void DrawRectangle::onSurfaceChanged()

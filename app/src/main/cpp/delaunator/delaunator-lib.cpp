@@ -4,13 +4,6 @@
 #include <stdio.h>
 #include <vector>
 
-extern "C" JNIEXPORT jfloat JNICALL
-Java_com_example_glrect_MainActivity_findTriangles(
-        JNIEnv *env,
-        jobject /* this */){
-    return denemeSilinecek();
-}
-
 extern "C" JNIEXPORT jfloatArray JNICALL
 Java_com_example_glrect_MainActivity_getPoints(
         JNIEnv *env,

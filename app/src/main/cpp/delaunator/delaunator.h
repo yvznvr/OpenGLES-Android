@@ -10,11 +10,6 @@
 #include <vector>
 #include <tuple>
 
-float denemeSilinecek()
-{
-	return 2.4f;
-}
-
 namespace delaunator {
 
 	//@see https://stackoverflow.com/questions/33333363/built-in-mod-vs-custom-mod-function-improve-the-performance-of-modulus-op/33333636#33333636

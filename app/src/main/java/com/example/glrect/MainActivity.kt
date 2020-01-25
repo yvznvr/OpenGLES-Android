@@ -17,7 +17,8 @@ class MainActivity : AppCompatActivity() {
         val drawButton = findViewById(R.id.drawButton) as Button
         val textView = findViewById(R.id.textView) as TextView
         var editText = findViewById(R.id.editText) as EditText
-        textView.setText(findTriangles().toString())
+        textView.setText("Write a corner points of polygon and click draw button. " +
+                "Points must be between -1.0 and 1.0. Separate points by comma")
 
 
         drawButton.setOnClickListener{
@@ -42,10 +43,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    /**
-     * A native method that is implemented by the 'native-lib' native library,
-     * which is packaged with this application.
-     */
     external fun findTriangles(): Float
     external fun getPoints(arr:FloatArray): FloatArray
     companion object {
