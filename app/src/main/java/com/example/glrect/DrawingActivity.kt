@@ -13,6 +13,7 @@ class DrawingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_drawing)
         glSurfaceView = findViewById<GLSurfaceView>(R.id.glSurfaceView)
+        glSurfaceView.setEGLContextClientVersion(2)
         glSurfaceView.setRenderer(MyRenderer())
 
     }
