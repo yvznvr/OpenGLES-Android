@@ -17,6 +17,7 @@ public:
     void onSurfaceCreated();
     void onSurfaceChanged();
     void onDrawFrame();
+    void setPoints(float *points, int size);
 
 private:
     GLuint loadShader(GLuint shaderType, const char* shaderSource);
@@ -24,6 +25,8 @@ private:
     GLuint shaderProgram;
     GLuint vPosition;
     float hue = 0;
+    int vertexSize = 0;
+    GLfloat *vertexPoints = nullptr;
 };
 
 

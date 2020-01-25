@@ -5,20 +5,11 @@
 
 static DrawRectangle *pObject = new DrawRectangle();
 
-extern "C" JNIEXPORT jstring JNICALL
-Java_com_example_glrect_MainActivity_stringFromJNI(
-        JNIEnv *env,
-        jobject /* this */) {
-    std::string hello = "Hello Native";
-    return env->NewStringUTF(hello.c_str());
-}
-
 extern "C" JNIEXPORT void JNICALL
 Java_com_example_glrect_MyRenderer_surfaceCreated(
         JNIEnv *env,
         jobject /* this */) {
     pObject->onSurfaceCreated();
-    //printf("adadasdadasdadad");
 }
 
 
@@ -27,5 +18,17 @@ Java_com_example_glrect_MyRenderer_drawFrame(
         JNIEnv *env,
         jobject /* this */) {
     pObject->onDrawFrame();
-    //printf("adadasdadasdadad");
+}
+
+extern "C" JNIEXPORT void JNICALL
+        Java_com_example_glrect_MyRenderer_setPoints(
+        JNIEnv *env,
+        jobject jobj,
+        jfloatArray points){
+
+    jsize size = env->GetArrayLength(points);
+    float arr[size];
+    env->GetFloatArrayRegion(points,0,size,arr);
+    pObject->setPoints(arr, size);
+
 }

@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
+import android.widget.EditText
+import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -14,11 +16,29 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val drawButton = findViewById(R.id.drawButton) as Button
         val textView = findViewById(R.id.textView) as TextView
-        textView.setText(stringFromJNI())
+        var editText = findViewById(R.id.editText) as EditText
+        textView.setText(findTriangles().toString())
+
 
         drawButton.setOnClickListener{
-            val intent = Intent(this, DrawingActivity::class.java)
-            startActivity(intent)
+            var str = editText.text.split(",").toTypedArray()
+            var points = FloatArray(str.size)
+            var error: Boolean = true
+            try {
+                for (i in 0..str.size-1) {
+                    points[i] = str[i].toFloat()
+                }
+                error = false
+            }catch (error : NumberFormatException){
+                Toast.makeText(this, "String Error", Toast.LENGTH_LONG).show()
+            }
+            if(!error){
+                val intent = Intent(this, DrawingActivity::class.java)
+                val bundle = Bundle()
+                bundle.putFloatArray("points", getPoints(points))
+                intent.putExtras(bundle)
+                startActivity(intent)
+            }
         }
     }
 
@@ -26,13 +46,13 @@ class MainActivity : AppCompatActivity() {
      * A native method that is implemented by the 'native-lib' native library,
      * which is packaged with this application.
      */
-    external fun stringFromJNI(): String
-
+    external fun findTriangles(): Float
+    external fun getPoints(arr:FloatArray): FloatArray
     companion object {
 
         // Used to load the 'native-lib' library on application startup.
         init {
-            System.loadLibrary("native-lib")
+            System.loadLibrary("delaunator-lib")
         }
     }
 }

@@ -3,6 +3,7 @@ package com.example.glrect
 import android.opengl.GLSurfaceView
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import com.example.glrect.R
 
 
@@ -14,8 +15,9 @@ class DrawingActivity : AppCompatActivity() {
         setContentView(R.layout.activity_drawing)
         glSurfaceView = findViewById<GLSurfaceView>(R.id.glSurfaceView)
         glSurfaceView.setEGLContextClientVersion(2)
-        glSurfaceView.setRenderer(MyRenderer())
-
+        var renderer = MyRenderer()
+        renderer.updatePoints(intent.getFloatArrayExtra("points"))
+        glSurfaceView.setRenderer(renderer)
     }
 
 

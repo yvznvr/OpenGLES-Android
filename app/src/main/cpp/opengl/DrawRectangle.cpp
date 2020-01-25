@@ -24,11 +24,9 @@ static const char glFragmentShader[] =
         "{\n"
         "  vec3 fragColor = hsv2rgb(vec3(hue, 1.0, 1.0));\n"
         "  gl_FragColor = vec4(fragColor, 1.0);\n"
-        "  //gl_FragColor = vec4(1.0*rate, 0.0, 0.0, 1.0);\n"
         "}\n";
 
 #define LOG_TAG "libNative"
-#define LOGI(...) __android_log_print(ANDROID_LOG_INFO, LOG_TAG, __VA_ARGS__)
 #define LOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
 
 DrawRectangle::DrawRectangle()
@@ -127,11 +125,11 @@ void DrawRectangle::onSurfaceChanged()
 
 void DrawRectangle::onDrawFrame()
 {
+
     GLfloat verticeMatrix[] = {
             0.0f, 0.5f,
             -0.5f, -0.5f,
-            0.5f, -0.5f
-    };
+            0.5f, -0.5f};
 
     glClear(GL_COLOR_BUFFER_BIT);
     glUseProgram(shaderProgram);
@@ -149,7 +147,18 @@ void DrawRectangle::onDrawFrame()
     {
         hue = 0;
     }
-    glVertexAttribPointer(vPosition, 2, GL_FLOAT, GL_FALSE, 0 ,verticeMatrix);
+    glVertexAttribPointer(vPosition, 2, GL_FLOAT, GL_FALSE, 0 ,vertexPoints);
     glEnableVertexAttribArray(vPosition);
-    glDrawArrays(GL_TRIANGLES, 0, 3);
+    glDrawArrays(GL_TRIANGLES, 0, vertexSize);
+}
+
+void DrawRectangle::setPoints(float *points, int size)
+{
+    delete[] vertexPoints;
+    vertexSize = size;
+    vertexPoints = new float[size];
+    for(int i=0; i<size; i++)
+    {
+        vertexPoints[i] = points[i];
+    }
 }
