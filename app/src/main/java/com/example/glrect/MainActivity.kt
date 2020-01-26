@@ -22,6 +22,7 @@ class MainActivity : AppCompatActivity() {
 
 
         drawButton.setOnClickListener{
+            // Split string by comma and add each value to float array
             var str = editText.text.split(",").toTypedArray()
             var points = FloatArray(str.size)
             var error: Boolean = true
@@ -33,6 +34,7 @@ class MainActivity : AppCompatActivity() {
             }catch (error : NumberFormatException){
                 Toast.makeText(this, "String Error", Toast.LENGTH_LONG).show()
             }
+            // If there is no error in given string, draw polygon
             if(!error){
                 val intent = Intent(this, DrawingActivity::class.java)
                 val bundle = Bundle()
@@ -43,6 +45,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // Native functions
     external fun findTriangles(): Float
     external fun getPoints(arr:FloatArray): FloatArray
     companion object {

@@ -122,14 +122,11 @@ void DrawRectangle::onSurfaceChanged()
 
 void DrawRectangle::onDrawFrame()
 {
-
-    GLfloat verticeMatrix[] = {
-            0.0f, 0.5f,
-            -0.5f, -0.5f,
-            0.5f, -0.5f};
-
+    // This function draw shape in each frame
     glClear(GL_COLOR_BUFFER_BIT);
     glUseProgram(shaderProgram);
+
+    // to changing color, increments value of hue channel value in HSV color space
     GLint loc = glGetUniformLocation(shaderProgram, "hue");
     if(loc != -1)
     {
@@ -151,6 +148,7 @@ void DrawRectangle::onDrawFrame()
 
 void DrawRectangle::setPoints(float *points, int size)
 {
+    // set points and size of polygon
     delete[] vertexPoints;
     vertexSize = size;
     vertexPoints = new float[size];

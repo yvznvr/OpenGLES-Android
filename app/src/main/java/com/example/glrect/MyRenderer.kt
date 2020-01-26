@@ -6,6 +6,7 @@ import javax.microedition.khronos.opengles.GL10
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MyRenderer : GLSurfaceView.Renderer {
+    // Native functions
     external fun drawFrame()
     external fun surfaceCreated()
     external fun setPoints(arr:FloatArray)
@@ -13,8 +14,8 @@ class MyRenderer : GLSurfaceView.Renderer {
     fun updatePoints(points:FloatArray){
         setPoints(points)
     }
+
     override fun onDrawFrame(gl: GL10?) {
-        //gl?.glClear(GL10.GL_COLOR_BUFFER_BIT or GL10.GL_DEPTH_BUFFER_BIT)
         drawFrame()
     }
 
