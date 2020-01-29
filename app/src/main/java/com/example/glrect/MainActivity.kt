@@ -38,21 +38,16 @@ class MainActivity : AppCompatActivity() {
             if(!error){
                 val intent = Intent(this, DrawingActivity::class.java)
                 val bundle = Bundle()
-                bundle.putFloatArray("points", getPoints(points))
+                bundle.putFloatArray("points", points)
                 intent.putExtras(bundle)
                 startActivity(intent)
             }
         }
+
+
     }
 
     // Native functions
-    external fun findTriangles(): Float
-    external fun getPoints(arr:FloatArray): FloatArray
-    companion object {
-
-        // Used to load the 'native-lib' library on application startup.
-        init {
-            System.loadLibrary("delaunator-lib")
-        }
-    }
+    //external fun findTriangles(): Float
+    //external fun getPoints(arr:FloatArray): FloatArray
 }
