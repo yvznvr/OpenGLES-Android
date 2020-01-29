@@ -1,13 +1,13 @@
 cmake_minimum_required(VERSION 3.4.1)
 
-set( delaunator_src_DIR ../delaunator )
+set( triangulation_src_DIR ../triangulation )
 
-set( delaunator_build_DIR ../delaunator/outputs )
-file(MAKE_DIRECTORY ${delaunator_build_DIR})
+set( triangulation_build_DIR ../triangulation/outputs )
+file(MAKE_DIRECTORY ${triangulation_build_DIR})
 
 
-add_subdirectory(${delaunator_src_DIR}
-        ${delaunator_build_DIR} )
+add_subdirectory(${triangulation_src_DIR}
+        ${triangulation_build_DIR} )
 
 add_library( # Sets the name of the library.
         native-lib
@@ -19,14 +19,14 @@ add_library( # Sets the name of the library.
         native-lib.cpp
         DrawRectangle.cpp
         DrawRectangle.h
-        ../delaunator/Triangulate.h)
+        ../triangulation/Triangulate.h)
 
 find_library(log-lib
                 log)
 
 target_link_libraries( 
         native-lib
-        delaunator-lib-static
+        triangulation-lib-static
         EGL
         GLESv2
         android

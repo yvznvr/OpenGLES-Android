@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <vector>
 #include "DrawRectangle.h"
-#include "../delaunator/Triangulate.h"
+#include "../triangulation/Triangulate.h"
 
 static DrawRectangle *pObject = new DrawRectangle();
 
