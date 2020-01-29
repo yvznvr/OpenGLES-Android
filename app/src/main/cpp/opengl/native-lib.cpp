@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <vector>
 #include "DrawRectangle.h"
-#include "../delaunator/delaunator.h"
+#include "../delaunator/Triangulate.h"
 
 static DrawRectangle *pObject = new DrawRectangle();
 
@@ -22,23 +22,7 @@ Java_com_example_glrect_MyRenderer_drawFrame(
     pObject->onDrawFrame();
 }
 
-/*
 extern "C" JNIEXPORT void JNICALL
-        Java_com_example_glrect_MyRenderer_setPoints(
-        JNIEnv *env,
-        jobject jobj,
-        jfloatArray points){
-
-    jsize size = env->GetArrayLength(points);
-    float arr[size];
-    env->GetFloatArrayRegion(points,0,size,arr);
-    pObject->setPoints(arr, size);
-    delaunator::Delaunator d();
-
-}
-*/
-
-extern "C" JNIEXPORT jfloatArray JNICALL
 Java_com_example_glrect_MyRenderer_setPoints(
         JNIEnv *env,
         jobject jobj,
@@ -48,28 +32,29 @@ Java_com_example_glrect_MyRenderer_setPoints(
     float arr[size];
     env->GetFloatArrayRegion(points,0,size,arr);
 
-    std::vector<double> coords;
-    for(int i=0; i<size; i++)
+    Vector2dVector coords;
+    for(int i=0; i<size; i+=2)
     {
-        coords.push_back(arr[i]);
+        coords.push_back(Vector2d(arr[i], arr[i+1]));
     }
-    delaunator::Delaunator d(coords);
 
-    int pointSize = d.triangles.size()*2;
-    float trianglePoint[pointSize];
-    jfloatArray javaArr  = env->NewFloatArray(pointSize);
-
-    for (std::size_t i = 0; i < d.triangles.size(); i += 3) {
-        trianglePoint[2*i] = d.coords[2 * d.triangles[i]];
-        trianglePoint[2*i + 1] = d.coords[2 * d.triangles[i] + 1];
-        trianglePoint[2*i + 2] = d.coords[2 * d.triangles[i + 1]];
-        trianglePoint[2*i + 3] = d.coords[2 * d.triangles[i + 1] + 1];
-        trianglePoint[2*i + 4] = d.coords[2 * d.triangles[i + 2]];
-        trianglePoint[2*i + 5] = d.coords[2 * d.triangles[i + 2] + 1];
+    Vector2dVector result;
+    //  Invoke the triangulator to triangulate this polygon.
+    Triangulate::Process(coords, result);
+    int tcount = result.size() / 3;
+    float trianglePoint[result.size()*2];
+    for (int i = 0; i<tcount; i++)
+    {
+        const Vector2d &p1 = result[i * 3 + 0];
+        const Vector2d &p2 = result[i * 3 + 1];
+        const Vector2d &p3 = result[i * 3 + 2];
+        trianglePoint[i*6] = p1.GetX();
+        trianglePoint[i*6 +1] = p1.GetY();
+        trianglePoint[i*6 +2] = p2.GetX();
+        trianglePoint[i*6 +3] = p2.GetY();
+        trianglePoint[i*6 +4] = p3.GetX();
+        trianglePoint[i*6 +5] = p3.GetY();
     }
-    env->SetFloatArrayRegion(javaArr,0,pointSize,trianglePoint);
 
-    pObject->setPoints(trianglePoint, pointSize);
-
-    return javaArr;
+    pObject->setPoints(trianglePoint, result.size()*2);
 }

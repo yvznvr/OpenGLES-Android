@@ -19,7 +19,7 @@ add_library( # Sets the name of the library.
         native-lib.cpp
         DrawRectangle.cpp
         DrawRectangle.h
-        ../delaunator/delaunator.h)
+        ../delaunator/Triangulate.h)
 
 find_library(log-lib
                 log)
