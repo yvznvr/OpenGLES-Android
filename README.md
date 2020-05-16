@@ -7,4 +7,4 @@ I have used following library for Triangulation
 
 https://www.flipcode.com/archives/Efficient_Polygon_Triangulation.shtml
 
-![demo.gif](.\demo.gif)
+![demo.gif](demo.gif)
